@@ -17,6 +17,20 @@ function findById(id, notesArray) {
     return result;
 }
 
+// takes in req.body and array and returns new note obj
+function createNewNote(body, notesArray) {
+    console.log(body);
+    const note = body;
+    notesArray.push(note);
+    // write new note to json file
+    fs.writeFileSync(
+        path.join(__dirname, './db/db.json'),
+        JSON.stringify({ notes: notesArray }, null, 2)
+    );
+    // return finished code to post route for response
+    return note;
+};
+
 // testing connection - WORKING
 app.get('/', (req, res) => {
     res.json({
@@ -38,6 +52,14 @@ app.get('/api/notes/:id', (req, res) => {
         res.sendStatus(404);
     }
 });
+
+app.post('/api/notes', (req, res) => {
+    // req.body is where our incoming content is
+    req.body.id = notes.length.toString(); // give new note an id based on length of current array
+
+    const note = createNewNote(req.body, notes);
+    res.json(note);
+})
 
 // Catchall 
 app.use((req, res) => {
