@@ -16,6 +16,8 @@ This application stores note data in JSON format in the db.json file. It then us
 ### Installation
 No installation is necessary to utilize the deployed version of this application.
 
+For collaborators, this application can be cloned to your local machine, installed with npm install, and run locally with npm start. You can then navigate to the local host on your broswer at [http://localhost:3001/api/notes.](http://localhost:3001/api/notes) 
+
 ### Code Summary
 
 There are 2 HTML routes: 
@@ -35,6 +37,10 @@ Backend: Javascript, Node.js
 Project dependencies: Express.js & UUID package [(UUID docs)](https://github.com/uuidjs/uuid)
 
 ### File Structure
+
+Screenshot of file structure:
+
+![(screenshot of file structure)](./assets/images/file-structure.png)
 
 ## Deployed Application
 
