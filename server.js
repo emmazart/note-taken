@@ -46,7 +46,6 @@ function deleteNote(index, notesArray){
         path.join(__dirname, './db/db.json'),
         JSON.stringify({ notes: notesArray }, null, 2)
     );
-    // do we need to return anything?
 }
 
 // // testing connection - WORKING
@@ -74,7 +73,6 @@ app.get('/api/notes/:id', (req, res) => {
 // POST a new note
 app.post('/api/notes', (req, res) => {
     // req.body is where our incoming content is
-    // req.body.id = notes.length.toString(); // give new note an id based on length of current array
     req.body.id = uuidv4(); // give new note id from uuid module
 
     const note = createNewNote(req.body, notes);
@@ -86,7 +84,7 @@ app.delete('/api/notes/:id', (req, res) => {
     // find index of corresponding note object
     const index = findNote(req.params.id, notes);
     // if it exists
-    if (index) {
+    if (index >= 0) {
         deleteNote(index, notes);
         res.json({
             message: 'DELETED',
