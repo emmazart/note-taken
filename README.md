@@ -44,7 +44,7 @@ Screenshot of file structure:
 
 ## Deployed Application
 
-[Link to deployed application via Heroku](https://emmazart-note-taken.herokuapp.com/notes)
+[Link to deployed application via Heroku](https://emmazart-note-taken.herokuapp.com)
 
 Deployed index.html
 
