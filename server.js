@@ -2,6 +2,7 @@ const express = require('express');
 const { notes } = require('./db/db.json');
 const fs = require('fs');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid'); // package for unique id
 
 // instantiate the server
 const app = express();
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 3001;
 // Express middleware
 app.use(express.urlencoded({ extended: true })); // parse incoming string or array data
 app.use(express.json()); // parse incoming json data
+app.use(express.static('public')); // serve static files
 
 // takes in id and array of notes and returns single note object
 function findById(id, notesArray) {
@@ -47,12 +49,12 @@ function deleteNote(index, notesArray){
     // do we need to return anything?
 }
 
-// testing connection - WORKING
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Hello World Note Taken App'
-    });
-});
+// // testing connection - WORKING
+// app.get('/', (req, res) => {
+//     res.json({
+//         message: 'Hello World Note Taken App'
+//     });
+// });
 
 // GET all notes
 app.get('/api/notes', (req, res) => {
@@ -69,14 +71,17 @@ app.get('/api/notes/:id', (req, res) => {
     }
 });
 
+// post a new note
 app.post('/api/notes', (req, res) => {
     // req.body is where our incoming content is
-    req.body.id = notes.length.toString(); // give new note an id based on length of current array
+    // req.body.id = notes.length.toString(); // give new note an id based on length of current array
+    req.body.id = uuidv4(); // give new note id from uuid module
 
     const note = createNewNote(req.body, notes);
     res.json(note);
 })
 
+// delete a note by id
 app.delete('/api/notes/:id', (req, res) => {
     // find index of corresponding note object
     const index = findNote(req.params.id, notes);
@@ -90,6 +95,16 @@ app.delete('/api/notes/:id', (req, res) => {
     } else {
         res.sendStatus(404);
     }
+});
+
+// serve up index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// serve up notes.html
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
 // Catchall 
